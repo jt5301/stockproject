@@ -12,10 +12,8 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
-
   render() {
     const {isLoggedIn} = this.props
-    console.log('hello')
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}

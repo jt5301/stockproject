@@ -16,12 +16,12 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    let id = req.params.id
-    let user = await User.findByPk(id)
-    res.json(user)
-  } catch (error) {
-    console.log(error)
-  }
-})
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     let id = req.params.id
+//     let user = await User.findByPk(id)
+//     res.json(user)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
