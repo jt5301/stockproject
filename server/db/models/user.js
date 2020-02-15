@@ -24,14 +24,15 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  googleId: {
-    type: Sequelize.STRING
+  cash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 5000
   }
 })
 
 module.exports = User
 
-/**
+/*
  * instanceMethods
  */
 User.prototype.correctPassword = function(candidatePwd) {

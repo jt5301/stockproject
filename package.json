@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
+  "name": "stockproject",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "project to mimic having a stock portfolio",
   "engines": {
     "node": ">= 7.0.0"
   },
