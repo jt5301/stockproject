@@ -37,7 +37,7 @@ const loadTransactions = () => ({TYPE: LOAD_TRANSACTIONS})
 //   }
 // }
 
-const getTransactions = userId => async dispatch => {
+export const getTransactions = userId => async dispatch => {
   try {
     const allTransactions = await axios.get(`/transactions/${userId}`)
     dispatch(loadTransactions(allTransactions))

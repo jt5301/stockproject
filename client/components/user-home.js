@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {getTicket} from '../store/ticket'
 
 /**
  * COMPONENT
@@ -14,7 +15,7 @@ class UserHome extends React.Component {
       validTicketandQuantity: false
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleLookUp = this.handleLookUp.bind(this)
+    this.ticketLookUp = this.ticketLookUp.bind(this)
   }
 
   handleChange(event) {
@@ -24,11 +25,14 @@ class UserHome extends React.Component {
     })
   }
 
-  handleLookUp() {}
+  async ticketLookUp() {
+    await this.props.getTicket(this.state.ticket)
+    console.log('test>>>>>', this.props.ticket)
+  }
   buy() {}
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <div className="form">
         <h3>Welcome, {this.props.email}</h3>
@@ -42,7 +46,7 @@ class UserHome extends React.Component {
           <input name="quantity" type="Integer" onChange={this.handleChange} />
         </form>
         <div className="buttons">
-          <button onClick={this.handleLookUp} type="lookUp">
+          <button onClick={this.ticketLookUp} type="lookUp">
             Look Up
           </button>
 
@@ -65,11 +69,18 @@ class UserHome extends React.Component {
 const mapState = state => {
   return {
     cash: state.user.cash,
-    email: state.user.email
+    email: state.user.email,
+    ticket: state.ticket
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = dispatch => {
+  return {
+    getTicket: ticket => dispatch(getTicket(ticket))
+  }
+}
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
