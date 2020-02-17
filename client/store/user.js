@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const POST_TRANSACTION = 'POST_TRANSACTION'
 
 /**
  * INITIAL STATE
@@ -17,10 +18,50 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const postedTransaction = () => ({type: POST_TRANSACTION}) //add transaction to portfolio
+// const loadPortfolio = () => ({type: LOAD_PORTFOLIO}) //load portfolio. in separate tab
+const loadTransactions = () => ({TYPE: LOAD_TRANSACTIONS})
+//load all transactions. Maybe show the first 6?
 
 /**
  * THUNK CREATORS
  */
+
+// const getPortfolio = () => async dispatch => {
+//   try {
+//     const allTransactions = await axios.get(`/transactions/${userId}`)
+//     let portfolio = []
+//     //finish up later
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
+
+const getTransactions = userId => async dispatch => {
+  try {
+    const allTransactions = await axios.get(`/transactions/${userId}`)
+    dispatch(loadTransactions(allTransactions))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const postTransaction = (ticket, quantity) => async dispatch => {
+  try {
+    const transaction = {ticket, quantity}
+    const res = await axios.post('/transactions', transaction)
+    dispatch(postedTransaction(transaction))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// export const loadPortfolio = () => async dispatch => {
+//   try {
+//     const res = await axios.get()
+//   }
+// }
+
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')

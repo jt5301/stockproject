@@ -25,6 +25,7 @@ class UserHome extends React.Component {
   }
 
   handleLookUp() {}
+  buy() {}
 
   render() {
     console.log(this.state)
