@@ -19,3 +19,11 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.mainWrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.Message {
+  padding-top: 50px;
+}

@@ -39,7 +39,6 @@ class UserHome extends React.Component {
       })
       return
     }
-    console.log(typeof this.state.quantity)
     if (!Number.isInteger(this.state.quantity) || this.state.quantity <= 0) {
       this.setState({
         validTicketandQuantity: 'invalid quantity'
@@ -51,39 +50,59 @@ class UserHome extends React.Component {
     })
   }
   buy() {}
-
+  lookUpMessage() {
+    let ticket = this.props.ticket
+    switch (this.state.validTicketandQuantity) {
+      case 'invalid ticket':
+        return 'Please enter a valid ticket'
+      case 'invalid quantity':
+        return 'Please enter a valid quantity greater than zero'
+      case 'show message':
+        console.log(this.props.ticket)
+        return `${ticket.companyName} is currently priced at $${
+          ticket.iexRealtimePrice
+        } per share. Click the 'Buy' button to buy ${
+          this.state.quantity
+        } share(s)`
+    }
+  }
   render() {
-    console.log(this.state)
     return (
-      <div className="form">
-        <h3>Welcome, {this.props.email}</h3>
-        <div> You have ${this.props.cash} dollars to buy more stocks with.</div>
+      <div className="mainWrapper">
+        <div className="form">
+          <h3>Welcome, {this.props.email}</h3>
+          <div>
+            {' '}
+            You have ${this.props.cash} dollars to buy more stocks with.
+          </div>
 
-        <form onSubmit={this.handleSearch}>
-          <label htmlFor="ticket">Ticket:</label>
-          <input name="ticket" type="text" onChange={this.handleChange} />
+          <form onSubmit={this.handleSearch}>
+            <label htmlFor="ticket">Ticket:</label>
+            <input name="ticket" type="text" onChange={this.handleChange} />
 
-          <label htmlFor="quantity">Quantity</label>
-          <input name="quantity" type="number" onChange={this.handleChange} />
-        </form>
-        <div className="buttons">
-          <button onClick={this.ticketLookUp} type="lookUp">
-            Look Up
-          </button>
+            <label htmlFor="quantity">Quantity</label>
+            <input name="quantity" type="number" onChange={this.handleChange} />
+          </form>
+          <div className="buttons">
+            <button onClick={this.ticketLookUp} type="lookUp">
+              Look Up
+            </button>
 
-          <button
-            disabled={!this.state.validTicketandQuantity}
-            onClick={() => this.buy(this.state.ticket, this.state.quantity)}
-            type="buy"
-          >
-            Buy
-          </button>
+            <button
+              disabled={this.state.validTicketandQuantity != 'show message'}
+              onClick={() => this.buy(this.state.ticket, this.state.quantity)}
+              type="buy"
+            >
+              Buy
+            </button>
+          </div>
+          <div className="Message">{this.lookUpMessage()}</div>
         </div>
+        <h3>Last Six Transactions</h3>
       </div>
     )
   }
 }
-
 /**
  * CONTAINER
  */
@@ -102,10 +121,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(UserHome)
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
-}
