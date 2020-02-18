@@ -11,8 +11,8 @@ class UserHome extends React.Component {
     super()
     this.state = {
       ticket: '',
-      quantity: '',
-      validTicketandQuantity: false
+      quantity: 0,
+      validTicketandQuantity: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.ticketLookUp = this.ticketLookUp.bind(this)
@@ -20,19 +20,40 @@ class UserHome extends React.Component {
 
   handleChange(event) {
     event.preventDefault()
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    if (event.target.name === 'quantity') {
+      this.setState({
+        quantity: parseFloat(event.target.value, 10)
+      })
+    } else {
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    }
   }
 
   async ticketLookUp() {
     await this.props.getTicket(this.state.ticket)
-    console.log('test>>>>>', this.props.ticket)
+    if (this.props.ticket === 'invalid ticket') {
+      this.setState({
+        validTicketandQuantity: 'invalid ticket'
+      })
+      return
+    }
+    console.log(typeof this.state.quantity)
+    if (!Number.isInteger(this.state.quantity) || this.state.quantity <= 0) {
+      this.setState({
+        validTicketandQuantity: 'invalid quantity'
+      })
+      return
+    }
+    this.setState({
+      validTicketandQuantity: 'show message'
+    })
   }
   buy() {}
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     return (
       <div className="form">
         <h3>Welcome, {this.props.email}</h3>
@@ -43,7 +64,7 @@ class UserHome extends React.Component {
           <input name="ticket" type="text" onChange={this.handleChange} />
 
           <label htmlFor="quantity">Quantity</label>
-          <input name="quantity" type="Integer" onChange={this.handleChange} />
+          <input name="quantity" type="number" onChange={this.handleChange} />
         </form>
         <div className="buttons">
           <button onClick={this.ticketLookUp} type="lookUp">

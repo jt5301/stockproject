@@ -22,6 +22,7 @@ export const getTicket = ticket => async dispatch => {
     const returnTicket = await axios.get(`api/stocks/${ticket}`)
     dispatch(gotTicket(returnTicket.data))
   } catch (error) {
+    dispatch(gotTicket('invalid ticket'))
     console.error(error)
   }
 }
