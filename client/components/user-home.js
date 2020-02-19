@@ -1,7 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getTicket} from '../store/ticket'
+import {postTransaction} from '../store/user'
+import RecentTransactions from './recentTransactions'
 
 /**
  * COMPONENT
@@ -12,7 +13,8 @@ class UserHome extends React.Component {
     this.state = {
       ticket: '',
       quantity: 0,
-      validTicketandQuantity: ''
+      validTicketandQuantity: '',
+      buySuccess: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.ticketLookUp = this.ticketLookUp.bind(this)
@@ -35,44 +37,72 @@ class UserHome extends React.Component {
     await this.props.getTicket(this.state.ticket)
     if (this.props.ticket === 'invalid ticket') {
       this.setState({
-        validTicketandQuantity: 'invalid ticket'
+        validTicketandQuantity: 'invalid ticket',
+        buySuccess: ''
       })
       return
     }
     if (!Number.isInteger(this.state.quantity) || this.state.quantity <= 0) {
       this.setState({
-        validTicketandQuantity: 'invalid quantity'
+        validTicketandQuantity: 'invalid quantity',
+        buySuccess: ''
       })
       return
     }
     this.setState({
-      validTicketandQuantity: 'show message'
+      validTicketandQuantity: 'show message',
+      buySuccess: ''
     })
   }
-  buy() {}
+  buy() {
+    const ticket = this.props.ticket
+    const totalCost = (this.state.quantity * ticket.iexRealtimePrice).toFixed(2)
+    if (totalCost > this.props.cash) {
+      this.setState({
+        buySuccess: 'Not Enough',
+        validTicketandQuantity: ''
+      })
+      return
+    }
+
+    this.setState({
+      buySuccess: 'Purchased',
+      validTicketandQuantity: ''
+    })
+    this.props.postTransaction(ticket, this.state.quantity, this.props.id)
+  }
   lookUpMessage() {
-    let ticket = this.props.ticket
+    const ticket = this.props.ticket
     switch (this.state.validTicketandQuantity) {
       case 'invalid ticket':
-        return 'Please enter a valid ticket'
+        return 'Please enter a valid ticket.'
       case 'invalid quantity':
-        return 'Please enter a valid quantity greater than zero'
+        return 'Please enter a valid quantity greater than zero.'
       case 'show message':
-        console.log(this.props.ticket)
         return `${ticket.companyName} is currently priced at $${
           ticket.iexRealtimePrice
         } per share. Click the 'Buy' button to buy ${
           this.state.quantity
-        } share(s)`
+        } share(s).`
+      default:
+        return ''
+    }
+  }
+  buyMessage() {
+    if (this.state.buySuccess === 'Not Enough') {
+      return "You don't have enough in your account to complete this transaction."
+    }
+    if (this.state.buySuccess === 'Purchased') {
+      return 'Purchase Successful!'
     }
   }
   render() {
+    console.log(this.props)
     return (
       <div className="mainWrapper">
         <div className="form">
           <h3>Welcome, {this.props.email}</h3>
           <div>
-            {' '}
             You have ${this.props.cash} dollars to buy more stocks with.
           </div>
 
@@ -90,15 +120,19 @@ class UserHome extends React.Component {
 
             <button
               disabled={this.state.validTicketandQuantity != 'show message'}
-              onClick={() => this.buy(this.state.ticket, this.state.quantity)}
+              onClick={() => this.buy()}
               type="buy"
             >
               Buy
             </button>
           </div>
           <div className="Message">{this.lookUpMessage()}</div>
+          <div className="Message">{this.buyMessage()}</div>
         </div>
-        <h3>Last Six Transactions</h3>
+        <div className="TransactionWrapper">
+          <h3>Last Six Transactions</h3>
+          <RecentTransactions />
+        </div>
       </div>
     )
   }
@@ -110,13 +144,16 @@ const mapState = state => {
   return {
     cash: state.user.cash,
     email: state.user.email,
+    id: state.user.id,
     ticket: state.ticket
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getTicket: ticket => dispatch(getTicket(ticket))
+    getTicket: ticket => dispatch(getTicket(ticket)),
+    postTransaction: (ticket, quantity, id) =>
+      dispatch(postTransaction(ticket, quantity, id))
   }
 }
 

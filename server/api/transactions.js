@@ -5,8 +5,10 @@ const {Transactions} = require('../db/models')
 router.post('/', async (req, res, next) => {
   try {
     const transaction = await Transactions.create({
-      ticket: req.body.ticket,
-      amount: req.body.amount
+      ticket: req.body.ticket.companyName,
+      quantity: req.body.quantity,
+      amount: (req.body.quantity * req.body.ticket.iexRealtimePrice).toFixed(2),
+      userId: req.body.id
     })
     res.json(transaction.dataValues)
   } catch (error) {

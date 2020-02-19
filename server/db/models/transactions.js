@@ -6,9 +6,12 @@ const Transactions = db.define('transactions', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  amount: {
+  quantity: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  amount: {
+    type: Sequelize.FLOAT
   }
 })
 

@@ -39,18 +39,20 @@ const loadTransactions = () => ({TYPE: LOAD_TRANSACTIONS})
 
 export const getTransactions = userId => async dispatch => {
   try {
-    const allTransactions = await axios.get(`/transactions/${userId}`)
+    const allTransactions = await axios.get(`api/transactions/${userId}`)
     dispatch(loadTransactions(allTransactions))
   } catch (error) {
     console.error(error)
   }
 }
 
-export const postTransaction = (ticket, quantity) => async dispatch => {
+export const postTransaction = (ticket, quantity, id) => async dispatch => {
   try {
-    const transaction = {ticket, quantity}
-    const res = await axios.post('/transactions', transaction)
-    dispatch(postedTransaction(transaction))
+    const transaction = {ticket, quantity, id}
+    await axios.post('api/transactions', transaction)
+    const allTransactions = await axios.get(`api/transactions/${id}`)
+    console.log('alltransactions', allTransactions.data)
+    dispatch(postedTransaction(res.data))
   } catch (err) {
     console.error(err)
   }
