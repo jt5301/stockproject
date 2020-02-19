@@ -27,3 +27,10 @@ form div {
 .Message {
   padding-top: 50px;
 }
+
+.PortfolioItem {
+  border: solid;
+  margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}

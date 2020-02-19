@@ -17,7 +17,7 @@ const loadTransactions = transactions => ({
 export const getTransactions = userId => async dispatch => {
   try {
     const allTransactions = await axios.get(`api/transactions/${userId}`)
-    dispatch(loadTransactions(allTransactions))
+    dispatch(loadTransactions(allTransactions.data))
   } catch (error) {
     console.error(error)
   }

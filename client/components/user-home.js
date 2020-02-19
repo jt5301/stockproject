@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getTicket} from '../store/ticket'
 import {postTransaction, getTransactions} from '../store/portfolio'
-import RecentTransactions from './recentTransactions'
+import {Portfolio} from './portfolio'
 
 class UserHome extends React.Component {
   constructor() {
@@ -57,7 +57,7 @@ class UserHome extends React.Component {
   }
   buy() {
     const ticket = this.props.ticket
-    const totalCost = (this.state.quantity * ticket.iexRealtimePrice).toFixed(2)
+    const totalCost = (this.state.quantity * ticket.latestPrice).toFixed(2)
     if (totalCost > this.props.cash) {
       this.setState({
         buySuccess: 'Not Enough',
@@ -81,7 +81,7 @@ class UserHome extends React.Component {
         return 'Please enter a valid quantity greater than zero.'
       case 'show message':
         return `${ticket.companyName} is currently priced at $${
-          ticket.iexRealtimePrice
+          ticket.latestPrice
         } per share. Click the 'Buy' button to buy ${
           this.state.quantity
         } share(s).`
@@ -130,8 +130,10 @@ class UserHome extends React.Component {
           <div className="Message">{this.buyMessage()}</div>
         </div>
         <div className="TransactionWrapper">
-          <h3>Last Six Transactions</h3>
-          <RecentTransactions transactions={this.props.transactions} />
+          <h3>Portfolio:</h3>
+          <div>
+            <Portfolio transactions={this.props.transactions} />
+          </div>
         </div>
       </div>
     )
