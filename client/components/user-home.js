@@ -1,12 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getTicket} from '../store/ticket'
-import {postTransaction} from '../store/user'
+import {postTransaction, getTransactions} from '../store/portfolio'
 import RecentTransactions from './recentTransactions'
 
-/**
- * COMPONENT
- */
 class UserHome extends React.Component {
   constructor() {
     super()
@@ -18,6 +15,10 @@ class UserHome extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.ticketLookUp = this.ticketLookUp.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.getTransactions(this.props.id)
   }
 
   handleChange(event) {
@@ -97,7 +98,6 @@ class UserHome extends React.Component {
     }
   }
   render() {
-    console.log(this.props)
     return (
       <div className="mainWrapper">
         <div className="form">
@@ -131,7 +131,7 @@ class UserHome extends React.Component {
         </div>
         <div className="TransactionWrapper">
           <h3>Last Six Transactions</h3>
-          <RecentTransactions />
+          <RecentTransactions transactions={this.props.transactions} />
         </div>
       </div>
     )
@@ -145,7 +145,8 @@ const mapState = state => {
     cash: state.user.cash,
     email: state.user.email,
     id: state.user.id,
-    ticket: state.ticket
+    ticket: state.ticket,
+    transactions: state.portfolio
   }
 }
 
@@ -153,7 +154,8 @@ const mapDispatch = dispatch => {
   return {
     getTicket: ticket => dispatch(getTicket(ticket)),
     postTransaction: (ticket, quantity, id) =>
-      dispatch(postTransaction(ticket, quantity, id))
+      dispatch(postTransaction(ticket, quantity, id)),
+    getTransactions: userId => dispatch(getTransactions(userId))
   }
 }
 

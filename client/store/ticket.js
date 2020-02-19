@@ -1,9 +1,6 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
-
+//ACTION TYPES
 const GOT_TICKET = 'GOT_TICKET'
 
 //initial state
@@ -15,7 +12,7 @@ const gotTicket = ticket => ({
   ticket
 })
 
-//Thunk
+//THUNK
 
 export const getTicket = ticket => async dispatch => {
   try {
@@ -27,7 +24,7 @@ export const getTicket = ticket => async dispatch => {
   }
 }
 
-//reducer
+//REDUCER
 export default function(state = ticket, action) {
   switch (action.type) {
     case GOT_TICKET:
