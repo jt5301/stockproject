@@ -7,16 +7,17 @@ const GOT_TICKET = 'GOT_TICKET'
 const ticket = {}
 
 //action creator
-const gotTicket = ticket => ({
+const gotTicket = ticketData => ({
   type: GOT_TICKET,
-  ticket
+  ticketData
 })
 
 //THUNK
 
-export const getTicket = ticket => async dispatch => {
+export const getTicket = ticketData => async dispatch => {
   try {
-    const returnTicket = await axios.get(`api/stocks/${ticket}`)
+    const returnTicket = await axios.get(`api/stocks/${ticketData}`)
+    console.log(returnTicket)
     dispatch(gotTicket(returnTicket.data))
   } catch (error) {
     dispatch(gotTicket('invalid ticket'))

@@ -8,9 +8,9 @@ const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS'
 const transactions = []
 
 //ACTION CREATORS
-const loadTransactions = transactions => ({
+const loadTransactions = transactionsData => ({
   type: LOAD_TRANSACTIONS,
-  transactions
+  transactionsData
 })
 
 //THUNKS

@@ -30,7 +30,9 @@ form div {
 
 .PortfolioItem {
   border: solid;
-  margin: 10px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 10px;
 }

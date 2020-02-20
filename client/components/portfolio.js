@@ -1,48 +1,61 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getTransactions} from '../store/portfolio'
-import {getTicket} from '../store'
+const axios = require('axios')
 
 //change recent into portfolio. also decrement cash!
 
-const PortfolioComponent = props => {
-  if (props.transactions.length === 0)
-    return <div>No Transactions Available</div>
-
-  let performance = ['red', 'gray', 'green']
-  let portfolioAmount = {}
-  let portfolioQuantity = {}
-  let transax = props.transactions //array of all transactions
-  for (let i = 0; i < transax.length; i++) {
-    if (!portfolioAmount[transax[i].ticket]) {
-      portfolioAmount[transax[i].ticket] = transax[i].amount
-      portfolioQuantity[transax[i].ticket] = transax[i].quantity
-    } else {
-      portfolioAmount[transax[i].ticket] += transax[i].amount
-      portfolioQuantity[transax[i].ticket] += transax[i].quantity
+export default class Portfolio extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      todaysPrices: {},
+      todaysPerformance: {},
+      quantity: {}
     }
   }
-  for (let ticket in portfolioAmount) {
-    let color = props.getTicket(ticket)
-    console.log('in loop', color)
-  }
-  console.log('portfolio', portfolioAmount, portfolioQuantity, transax)
-  let identification = 0
-  return Object.keys(portfolioAmount).map(current => {
-    identification += 1
-    return (
-      <div className="PortfolioItem" key={identification}>
-        <ul>Company: {current}</ul>
-        <ul>Quantity: {portfolioQuantity[current]}</ul>
-        {/* <ul>Today's Amount: ${portfolioAmount[current]}</ul> */}
-      </div>
-    )
-  })
-}
+  async componentDidUpdate(prevProps) {
+    if (this.props.transactions !== prevProps.transactions) {
+      let transactions = this.props.transactions
+      let portfolioQuantity = {}
+      let updatedPrices = {}
+      let updatedPerformance = {}
+      for (let i = 0; i < transactions.length; i++) {
+        if (!portfolioQuantity[transactions[i].ticket]) {
+          portfolioQuantity[transactions[i].ticket] = transactions[i].quantity
+        } else {
+          portfolioQuantity[transactions[i].ticket] += transactions[i].quantity
+        }
+      }
 
-const mapDispatch = dispatch => {
-  return {
-    getTicket: ticket => dispatch(getTicket(ticket))
+      for (let ticket in portfolioQuantity) {
+        let ticketData = (await axios.get(`/api/stocks/${ticket}`)).data
+        updatedPrices[ticket] =
+          portfolioQuantity[ticket] * ticketData.latestPrice
+        let performance = ticketData.latestPrice - ticketData.previousClose
+        if (performance < 0) updatedPerformance[ticket] = 'red'
+        else if (performance > 0) updatedPerformance[ticket] = 'green'
+        else if (performance === 0) updatedPerformance[ticket] = 'gray'
+      }
+      this.setState({
+        quantity: portfolioQuantity,
+        todaysPrices: updatedPrices,
+        todaysPerformance: updatedPerformance
+      })
+    }
+  }
+
+  render() {
+    let identification = 0
+    return Object.keys(this.state.quantity).map(current => {
+      identification += 1
+      return (
+        <div className="PortfolioItem" key={identification}>
+          <ul>Ticket: {current}</ul>
+          <ul>Quantity: {this.state.quantity[current]} share(s)</ul>
+          <ul style={{color: `${this.state.todaysPerformance[current]}`}}>
+            Today's Value: {this.state.todaysPrices[current].toFixed(2)}{' '}
+          </ul>
+        </div>
+      )
+    })
   }
 }
-export const Portfolio = connect(null, mapDispatch)(PortfolioComponent)

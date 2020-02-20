@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getTicket} from '../store/ticket'
 import {postTransaction, getTransactions} from '../store/portfolio'
-import {Portfolio} from './portfolio'
+import Portfolio from './portfolio'
 
 class UserHome extends React.Component {
   constructor() {
@@ -16,9 +16,8 @@ class UserHome extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.ticketLookUp = this.ticketLookUp.bind(this)
   }
-
-  componentDidMount() {
-    this.props.getTransactions(this.props.id)
+  async componentDidMount() {
+    await this.props.getTransactions(this.props.id)
   }
 
   handleChange(event) {
@@ -74,6 +73,7 @@ class UserHome extends React.Component {
   }
   lookUpMessage() {
     const ticket = this.props.ticket
+    if (!this.state.quantity) return ''
     switch (this.state.validTicketandQuantity) {
       case 'invalid ticket':
         return 'Please enter a valid ticket.'
@@ -98,6 +98,7 @@ class UserHome extends React.Component {
     }
   }
   render() {
+    console.log(this.state)
     return (
       <div className="mainWrapper">
         <div className="form">
@@ -114,14 +115,14 @@ class UserHome extends React.Component {
             <input name="quantity" type="number" onChange={this.handleChange} />
           </form>
           <div className="buttons">
-            <button onClick={this.ticketLookUp} type="lookUp">
+            <button onClick={this.ticketLookUp} type="button">
               Look Up
             </button>
 
             <button
-              disabled={this.state.validTicketandQuantity != 'show message'}
+              disabled={this.state.validTicketandQuantity !== 'show message'}
               onClick={() => this.buy()}
-              type="buy"
+              type="button"
             >
               Buy
             </button>
@@ -129,7 +130,7 @@ class UserHome extends React.Component {
           <div className="Message">{this.lookUpMessage()}</div>
           <div className="Message">{this.buyMessage()}</div>
         </div>
-        <div className="TransactionWrapper">
+        <div>
           <h3>Portfolio:</h3>
           <div>
             <Portfolio transactions={this.props.transactions} />
