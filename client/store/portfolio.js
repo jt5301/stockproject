@@ -38,7 +38,8 @@ export const postTransaction = (ticket, quantity, id) => async dispatch => {
 export default function(state = transactions, action) {
   switch (action.type) {
     case LOAD_TRANSACTIONS:
-      return state.concat(action.transactionsData)
+      state = action.transactionsData
+      return state
     default:
       return state
   }

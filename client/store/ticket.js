@@ -17,7 +17,7 @@ const gotTicket = ticketData => ({
 export const getTicket = ticketData => async dispatch => {
   try {
     const returnTicket = await axios.get(`api/stocks/${ticketData}`)
-    console.log(returnTicket)
+    console.log('return ticket', returnTicket.data)
     dispatch(gotTicket(returnTicket.data))
   } catch (error) {
     dispatch(gotTicket('invalid ticket'))
@@ -29,7 +29,8 @@ export const getTicket = ticketData => async dispatch => {
 export default function(state = ticket, action) {
   switch (action.type) {
     case GOT_TICKET:
-      return action.ticket
+      state = action.ticketData
+      return state
     default:
       return state
   }

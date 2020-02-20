@@ -19,13 +19,22 @@ form div {
   margin: 1em;
   display: inline-block;
 }
-
+.navbar {
+  text-align: center;
+}
 .mainWrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .Message {
   padding-top: 50px;
+}
+.vl {
+  border-left: 1px solid gray;
+  height: 500px;
+  left: 50%;
+  margin-left: -3px;
+  top: 100px;
 }
 
 .PortfolioItem {
@@ -35,4 +44,30 @@ form div {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-right: 10px;
+}
+.Portfolio {
+  margin-right: 250px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.transactionItem {
+  border: solid;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 10px;
+}
+.transactions {
+  flex-direction: column;
+  margin-right: 30%;
+  margin-left: 30%;
+  text-align: center;
+  text-decoration: underline;
+  display: flex;
+}
+
+.value {
+  display: flex;
+  flex-direction: row;
 }

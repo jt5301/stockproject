@@ -28,7 +28,8 @@ class UserHome extends React.Component {
       })
     } else {
       this.setState({
-        [event.target.name]: event.target.value
+        [event.target.name]: event.target.value,
+        validTicketandQuantity: ''
       })
     }
   }
@@ -80,9 +81,11 @@ class UserHome extends React.Component {
       case 'invalid quantity':
         return 'Please enter a valid quantity greater than zero.'
       case 'show message':
-        return `${ticket.companyName} is currently priced at $${
-          ticket.latestPrice
-        } per share. Click the 'Buy' button to buy ${
+        return `${
+          ticket.companyName
+        } is currently priced at $${ticket.latestPrice.toFixed(
+          2
+        )} per share. Click the 'Buy' button to buy ${
           this.state.quantity
         } share(s).`
       default:
@@ -126,12 +129,12 @@ class UserHome extends React.Component {
             >
               Buy
             </button>
+            <div className="Message">{this.lookUpMessage()}</div>
+            <div className="Message">{this.buyMessage()}</div>
           </div>
-          <div className="Message">{this.lookUpMessage()}</div>
-          <div className="Message">{this.buyMessage()}</div>
         </div>
-        <div>
-          <h3>Portfolio:</h3>
+        <div className="vl" />
+        <div className="Portfolio">
           <div>
             <Portfolio transactions={this.props.transactions} />
           </div>

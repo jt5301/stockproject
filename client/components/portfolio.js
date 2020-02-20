@@ -45,17 +45,37 @@ export default class Portfolio extends React.Component {
 
   render() {
     let identification = 0
-    return Object.keys(this.state.quantity).map(current => {
-      identification += 1
-      return (
-        <div className="PortfolioItem" key={identification}>
-          <ul>Ticket: {current}</ul>
-          <ul>Quantity: {this.state.quantity[current]} share(s)</ul>
-          <ul style={{color: `${this.state.todaysPerformance[current]}`}}>
-            Today's Value: {this.state.todaysPrices[current].toFixed(2)}{' '}
-          </ul>
+    let total = 0
+    for (let ticket in this.state.quantity) {
+      let individualTotal =
+        this.state.quantity[ticket] * this.state.todaysPrices[ticket]
+      total += individualTotal
+    }
+    return (
+      <>
+        <h3>Portfolio</h3>
+        <div>
+          {Object.keys(this.state.quantity).map(current => {
+            identification += 1
+            return (
+              <div className="PortfolioItem" key={identification}>
+                <ul>Ticket: {current}</ul>
+                <ul>Quantity: {this.state.quantity[current]} share(s)</ul>
+                <ul className="value">
+                  Today's Value:
+                  <div
+                    style={{color: `${this.state.todaysPerformance[current]}`}}
+                  >
+                    {' '}
+                    ${this.state.todaysPrices[current].toFixed(2)}
+                  </div>
+                </ul>
+              </div>
+            )
+          })}
         </div>
-      )
-    })
+        <div style={{textAlign: 'right'}}>Total: ${total}</div>
+      </>
+    )
   }
 }
