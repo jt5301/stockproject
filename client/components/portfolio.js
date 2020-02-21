@@ -28,8 +28,7 @@ export default class Portfolio extends React.Component {
 
       for (let ticket in portfolioQuantity) {
         let ticketData = (await axios.get(`/api/stocks/${ticket}`)).data
-        updatedPrices[ticket] =
-          portfolioQuantity[ticket] * ticketData.latestPrice
+        updatedPrices[ticket] = ticketData.latestPrice
         let performance = ticketData.latestPrice - ticketData.previousClose
         if (performance < 0) updatedPerformance[ticket] = 'red'
         else if (performance > 0) updatedPerformance[ticket] = 'green'

@@ -104,7 +104,6 @@ class UserHome extends React.Component {
     }
   }
   render() {
-    console.log(this.props)
     return (
       <div className="mainWrapper">
         <div className="form">
