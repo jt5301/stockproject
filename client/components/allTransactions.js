@@ -4,11 +4,11 @@ import {connect} from 'react-redux'
 class Transactions extends React.Component {
   render() {
     let identification = 0
-    console.log(this.props.transactions)
     return (
       <div className="transactions">
         {this.props.transactions.map(current => {
           identification += 1
+          let date = current.createdAt.slice(0, 10)
           return (
             <div className="transactionItem" key={identification}>
               <ul>Ticket: {current.ticket}</ul>
@@ -19,6 +19,7 @@ class Transactions extends React.Component {
                 ).toFixed(2)}{' '}
                 per share
               </ul>
+              <ul>Transaction Date: {date}</ul>
             </div>
           )
         })}
