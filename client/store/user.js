@@ -4,6 +4,7 @@ import history from '../history'
 //ACTION TYPES
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const SUBTRACT_CASH = 'SUBTRACT_CAST'
 
 //INITIAL STATE
 const defaultUser = {}
@@ -11,8 +12,22 @@ const defaultUser = {}
 //ACTION CREATORS
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const subtractedCash = remainingCash => ({
+  type: SUBTRACT_CASH,
+  remainingCash
+})
 
 //THUNK CREATORS
+
+export const subtractCash = (id, buyTotal) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/users/buy/${id}`, {data: buyTotal})
+    console.log('after call', res)
+    // const remainingCash = res.data
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const me = () => async dispatch => {
   try {

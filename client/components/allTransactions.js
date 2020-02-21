@@ -2,9 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 class Transactions extends React.Component {
-  constructor() {
-    super()
-  }
   render() {
     let identification = 0
     console.log(this.props.transactions)

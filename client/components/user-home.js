@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getTicket} from '../store/ticket'
 import {postTransaction, getTransactions} from '../store/portfolio'
+import {subtractCash} from '../store/user'
 import Portfolio from './portfolio'
 
 class UserHome extends React.Component {
@@ -55,9 +56,10 @@ class UserHome extends React.Component {
       buySuccess: ''
     })
   }
-  buy() {
+  async buy() {
     const ticket = this.props.ticket
     const totalCost = (this.state.quantity * ticket.latestPrice).toFixed(2)
+
     if (totalCost > this.props.cash) {
       this.setState({
         buySuccess: 'Not Enough',
@@ -65,6 +67,7 @@ class UserHome extends React.Component {
       })
       return
     }
+    await this.props.subtractCash(this.props.id, totalCost)
 
     this.setState({
       buySuccess: 'Purchased',
@@ -101,7 +104,7 @@ class UserHome extends React.Component {
     }
   }
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <div className="mainWrapper">
         <div className="form">
@@ -161,7 +164,9 @@ const mapDispatch = dispatch => {
     getTicket: ticket => dispatch(getTicket(ticket)),
     postTransaction: (ticket, quantity, id) =>
       dispatch(postTransaction(ticket, quantity, id)),
-    getTransactions: userId => dispatch(getTransactions(userId))
+    getTransactions: userId => dispatch(getTransactions(userId)),
+    subtractCash: (userId, cashRemaining) =>
+      dispatch(subtractCash(userId, cashRemaining))
   }
 }
 

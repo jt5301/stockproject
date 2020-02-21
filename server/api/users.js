@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User} = require('../db/models/index')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -13,23 +13,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// router.put('/:id', async (req, res, next) => {
-//   try {
-//     let subtractAmt = req.body.cost
-//     let user = req.params.id
-//     const user = await User.findByPk(user)
-//     user.cash -=subtractAmt
-//   } catch (error) {
-//     next(err)
-//   }
-// })
-
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//     let id = req.params.id
-//     let user = await User.findByPk(id)
-//     res.json(user)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
+router.put('/buy/:id', async (req, res, next) => {
+  try {
+    let subtractAmt = req.body.data
+    let userId = req.params.id
+    let user = await User.findByPk(userId)
+    user.cash -= subtractAmt
+    await user.save()
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})

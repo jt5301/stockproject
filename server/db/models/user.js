@@ -25,7 +25,7 @@ const User = db.define('user', {
     }
   },
   cash: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     defaultValue: 5000
   }
 })

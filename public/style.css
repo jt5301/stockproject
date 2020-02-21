@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans, ;';
 }
 
 a {
@@ -19,6 +19,10 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+.form {
+  margin-left: 10%;
+}
+
 .navbar {
   text-align: center;
 }
@@ -26,15 +30,14 @@ form div {
   display: flex;
   justify-content: space-between;
 }
-.Message {
-  padding-top: 50px;
-}
+
 .vl {
   border-left: 1px solid gray;
   height: 500px;
   left: 50%;
   margin-left: -3px;
   top: 100px;
+  position: sticky;
 }
 
 .PortfolioItem {

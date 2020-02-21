@@ -74,7 +74,7 @@ export default class Portfolio extends React.Component {
             )
           })}
         </div>
-        <div style={{textAlign: 'right'}}>Total: ${total}</div>
+        <div style={{textAlign: 'right'}}>Total: ${total.toFixed(2)}</div>
       </>
     )
   }
