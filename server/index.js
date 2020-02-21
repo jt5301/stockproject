@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 8000
 const app = express()
 const socketio = require('socket.io')
 module.exports = app
+require('dotenv').config()
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'test') {
  * Node process on process.env
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
+console.log('I"M HERE!!!!!!!!!!!>>>>>>>>>>>@######', process.env)
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
