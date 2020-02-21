@@ -110,7 +110,8 @@ class UserHome extends React.Component {
         <div className="form">
           <h3>Welcome, {this.props.email}</h3>
           <div>
-            You have ${this.props.cash} dollars to buy more stocks with.
+            You have ${this.props.cash.toFixed(2)} dollars to buy more stocks
+            with.
           </div>
 
           <form onSubmit={this.handleSearch}>

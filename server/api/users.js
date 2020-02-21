@@ -20,7 +20,7 @@ router.put('/buy/:id', async (req, res, next) => {
     let user = await User.findByPk(userId)
     user.cash -= subtractAmt
     await user.save()
-    res.json(user)
+    res.json(user.cash)
   } catch (error) {
     next(error)
   }

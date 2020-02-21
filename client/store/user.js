@@ -22,8 +22,8 @@ const subtractedCash = remainingCash => ({
 export const subtractCash = (id, buyTotal) => async dispatch => {
   try {
     const res = await axios.put(`/api/users/buy/${id}`, {data: buyTotal})
-    console.log('after call', res)
-    // const remainingCash = res.data
+    let afterTransaction = res.data
+    dispatch(subtractedCash(afterTransaction))
   } catch (error) {
     console.error(error)
   }
@@ -71,6 +71,8 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case SUBTRACT_CASH:
+      return {...state, cash: action.remainingCash}
     default:
       return state
   }
