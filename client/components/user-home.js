@@ -5,6 +5,7 @@ import {postTransaction, getTransactions} from '../store/portfolio'
 import {subtractCash} from '../store/user'
 import Portfolio from './portfolio'
 import LookUpMessage from './LookUpMessage'
+import BuyMessage from './BuyMessage'
 
 class UserHome extends React.Component {
   constructor() {
@@ -76,34 +77,6 @@ class UserHome extends React.Component {
     })
     this.props.postTransaction(ticket, this.state.quantity, this.props.id)
   }
-  // lookUpMessage() {
-  //   const ticket = this.props.ticket
-  //   if (!this.state.quantity) return ''
-  //   switch (this.state.validTicketandQuantity) {
-  //     case 'invalid ticket':
-  //       return 'Please enter a valid ticket.'
-  //     case 'invalid quantity':
-  //       return 'Please enter a valid quantity greater than zero.'
-  //     case 'show message':
-  //       return `${
-  //         ticket.companyName
-  //         } is currently priced at $${ticket.latestPrice.toFixed(
-  //           2
-  //         )} per share. Click the 'Buy' button to buy ${
-  //         this.state.quantity
-  //         } share(s).`
-  //     default:
-  //       return ''
-  //   }
-  // }
-  buyMessage() {
-    if (this.state.buySuccess === 'Not Enough') {
-      return "You don't have enough in your account to complete this transaction."
-    }
-    if (this.state.buySuccess === 'Purchased') {
-      return 'Purchase Successful!'
-    }
-  }
   render() {
     return (
       <div className="mainWrapper">
@@ -140,7 +113,9 @@ class UserHome extends React.Component {
               />
             </div>
 
-            <div className="Message">{this.buyMessage()}</div>
+            <div className="Message">
+              <BuyMessage buySuccess={this.state.buySuccess} />
+            </div>
           </div>
         </div>
         <div className="vl" />
