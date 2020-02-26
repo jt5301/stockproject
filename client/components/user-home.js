@@ -11,7 +11,7 @@ class UserHome extends React.Component {
     super()
     this.state = {
       ticket: {},
-      quantity: 0,
+      quantity: NaN,
       validTicketandQuantity: '',
       buySuccess: ''
     }
@@ -76,6 +76,26 @@ class UserHome extends React.Component {
     })
     this.props.postTransaction(ticket, this.state.quantity, this.props.id)
   }
+  // lookUpMessage() {
+  //   const ticket = this.props.ticket
+  //   if (!this.state.quantity) return ''
+  //   switch (this.state.validTicketandQuantity) {
+  //     case 'invalid ticket':
+  //       return 'Please enter a valid ticket.'
+  //     case 'invalid quantity':
+  //       return 'Please enter a valid quantity greater than zero.'
+  //     case 'show message':
+  //       return `${
+  //         ticket.companyName
+  //         } is currently priced at $${ticket.latestPrice.toFixed(
+  //           2
+  //         )} per share. Click the 'Buy' button to buy ${
+  //         this.state.quantity
+  //         } share(s).`
+  //     default:
+  //       return ''
+  //   }
+  // }
   buyMessage() {
     if (this.state.buySuccess === 'Not Enough') {
       return "You don't have enough in your account to complete this transaction."
@@ -107,7 +127,7 @@ class UserHome extends React.Component {
             </button>
 
             <button
-              disabled={this.state.validTicketandQuantity !== 'show message'}
+              disabled={this.state.validTicketandQuantity !== this.props.ticket}
               onClick={() => this.buy()}
               type="button"
             >
