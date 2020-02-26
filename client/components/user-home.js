@@ -4,12 +4,13 @@ import {getTicket} from '../store/ticket'
 import {postTransaction, getTransactions} from '../store/portfolio'
 import {subtractCash} from '../store/user'
 import Portfolio from './portfolio'
+import LookUpMessage from './LookUpMessage'
 
 class UserHome extends React.Component {
   constructor() {
     super()
     this.state = {
-      ticket: '',
+      ticket: {},
       quantity: 0,
       validTicketandQuantity: '',
       buySuccess: ''
@@ -52,7 +53,7 @@ class UserHome extends React.Component {
       return
     }
     this.setState({
-      validTicketandQuantity: 'show message',
+      validTicketandQuantity: this.props.ticket,
       buySuccess: ''
     })
   }
@@ -74,26 +75,6 @@ class UserHome extends React.Component {
       validTicketandQuantity: ''
     })
     this.props.postTransaction(ticket, this.state.quantity, this.props.id)
-  }
-  lookUpMessage() {
-    const ticket = this.props.ticket
-    if (!this.state.quantity) return ''
-    switch (this.state.validTicketandQuantity) {
-      case 'invalid ticket':
-        return 'Please enter a valid ticket.'
-      case 'invalid quantity':
-        return 'Please enter a valid quantity greater than zero.'
-      case 'show message':
-        return `${
-          ticket.companyName
-        } is currently priced at $${ticket.latestPrice.toFixed(
-          2
-        )} per share. Click the 'Buy' button to buy ${
-          this.state.quantity
-        } share(s).`
-      default:
-        return ''
-    }
   }
   buyMessage() {
     if (this.state.buySuccess === 'Not Enough') {
@@ -132,7 +113,13 @@ class UserHome extends React.Component {
             >
               Buy
             </button>
-            <div className="Message">{this.lookUpMessage()}</div>
+            <div className="Message">
+              <LookUpMessage
+                quantity={this.state.quantity}
+                valid={this.state.validTicketandQuantity}
+              />
+            </div>
+
             <div className="Message">{this.buyMessage()}</div>
           </div>
         </div>
