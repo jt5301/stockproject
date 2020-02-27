@@ -1,5 +1,8 @@
 # Stock Project
-App is deployed [here]:http://localhost:8000/home
+App is deployed here: https://ttpstock.herokuapp.com/
+
+(The boilerplate for this project is provided by Fullstack Academy and uses Express/Sequelize/React/Redux/Webpack.
+github.com/FullstackAcademy/boilermaker. I forked this boilerplate to use on 2/14/2020. The project was due on 2/21/2020. I did some slight refactoring of the user-home component on 2/26/2020 because it was bothering me, and I updated the readme on 2/26/2020.)
 
 You are directed to sign up / log in once you are directed to the site. authentication happens on wrong username / password / combination:
 ![login](https://i.imgur.com/l67dvRr.png "signup")
