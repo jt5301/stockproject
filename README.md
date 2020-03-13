@@ -2,7 +2,9 @@
 App is deployed here: https://ttpstock.herokuapp.com/
 
 (The boilerplate for this project is provided by Fullstack Academy and uses Express/Sequelize/React/Redux/Webpack.
-github.com/FullstackAcademy/boilermaker. I forked this boilerplate to use on 2/14/2020. The project was due on 2/21/2020. I did some slight refactoring of the user-home component on 2/26/2020 because it was bothering me, and I updated the readme on 2/26/2020.). I am planning to continue this project to include styling, as well as an option to sell.
+github.com/FullstackAcademy/boilermaker. I forked this boilerplate to use on 2/14/2020. The project was due on 2/21/2020. I did some slight refactoring of the user-home component on 2/26/2020 because it was bothering me, and I updated the readme on 2/26/2020.). I am planning to continue this project to include styling, as well as an option to sell. Stock information was provided using IEX's api. More information about it can be found here:
+https://iexcloud.io/docs/api/
+
 
 You are directed to sign up / log in once you are directed to the site. authentication happens on wrong username / password / combination:
 ![login](https://i.imgur.com/l67dvRr.png "signup")
